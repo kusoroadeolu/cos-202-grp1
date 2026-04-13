@@ -22,8 +22,8 @@ main        stable, deployable code only
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/YOUR-ORG/YOUR-REPO.git
-cd YOUR-REPO
+git clone https://github.com/kusoroadeolu/cos-202-grp1.git
+cd cos-202-grp1
 ```
 
 _Coming Soon_
@@ -71,11 +71,7 @@ git push origin your-name/feature-name
 ---
 
 ## Project structure
-
-```
 _Coming Soon..._
-
----
 
 ## GitHub basics (if you're new to this)
 
@@ -104,4 +100,4 @@ _Coming Soon..._
 
 ---
 
-*Questions? Ping the team lead(Kusoro Victor).*
+*Questions? Ping the team lead (Kusoro Victor).*
