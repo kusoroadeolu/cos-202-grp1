@@ -1,6 +1,6 @@
 # Contributing Guide
 
-Welcome to the team! Read this before touching anything. It's short, promise.
+Welcome to the repo! Read this before touching anything. It's pretty short.
 
 ---
 
