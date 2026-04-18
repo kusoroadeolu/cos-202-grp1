@@ -2,20 +2,17 @@ import type { Config } from 'jest'
 import nextJest from 'next/jest.js'
 
 const createJestConfig = nextJest({
-  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
   dir: './',
 })
 
-// Add any custom config to be passed to Jest
 const config: Config = {
-  setupFilesAfterFramework: ['<rootDir>/jest.setup.ts'],
-  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  testEnvironment: 'jest-environment-jsdom', // Explicitly use the full name
   moduleNameMapper: {
-    // Handle module aliases
     '^@/(.*)$': '<rootDir>/$1',
   },
-  // Note: You no longer need the 'transform' block for ts-jest 
-  // as next/jest handles TS via SWC automatically!
+  // This ensures Jest doesn't try to parse CSS or Images as JS
+  modulePathIgnorePatterns: ['<rootDir>/.next/'],
 }
 
 export default createJestConfig(config)
