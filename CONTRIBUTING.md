@@ -36,14 +36,12 @@ Always branch off `dev`, not `main`:
 ```bash
 git checkout dev
 git pull origin dev
-git checkout -b your-name/feature-name
+git checkout -b feature/yourname-*
 ```
 
 Branch naming examples:
-- `victor/add-task-form`
-- `kamsi/delete-task-endpoint`
-- `dumebi/fix-login-bug`
-
+- `feature/victor-add-task-form`
+- `feature/kamsi-delete-task-endpoint`
 ---
 
 ## Committing your work
@@ -69,9 +67,6 @@ git push origin your-name/feature-name
 **Don't merge your own PR.** Wait for a review.
 
 ---
-
-## Project structure
-_Coming Soon..._
 
 ## GitHub basics (if you're new to this)
 
