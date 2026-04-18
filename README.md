@@ -80,12 +80,12 @@ student-task-manager/
 ├── app/
 │   ├── page.tsx                        # Homepage
 │   ├── dashboard/page.tsx              # Main app view
-│   └── api/                            # ← BACKEND TEAM works here
+│   └── api/                            # BACKEND Team works here
 │       ├── tasks/route.ts              # Task CRUD endpoints
 │       ├── projects/route.ts           # Project endpoints
 │       └── auth/[...nextauth]/route.ts # Auth endpoints
 │
-├── components/                         # ← FRONTEND TEAM works here
+├── components/                         # FRONTEND Team works here
 │   ├── TaskCard.tsx
 │   └── Sidebar.tsx
 │
@@ -93,9 +93,9 @@ student-task-manager/
 │   └── db.ts                           # Shared Prisma client (don't touch)
 │
 ├── prisma/
-│   └── schema.prisma                   # ← DB schema (coordinate changes here)
+│   └── schema.prisma                   # DB schema (coordinate changes here)
 │
-└── __tests__/                          # ← TESTING TEAM works here
+└── __tests__/                          # QA/Documentation Team works here
 ```
 
 ---
@@ -130,7 +130,7 @@ export async function POST(req: Request) {
 - Fetch data from the API routes the backend team creates (e.g. `fetch('/api/tasks')`)
 - Keep components small and focused — one component, one responsibility
 
-###  Testing Team
+###  QA/Documentation Team
 - Work inside `__tests__/`
 - We use **Jest** + **React Testing Library**
 - Run tests with: `npm test`
