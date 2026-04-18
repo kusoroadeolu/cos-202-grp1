@@ -13,17 +13,21 @@ datasource db {
 }
 
 model User {
-  matricNo        String   @id @default(cuid())
+  id        String   @id @default(cuid())
   email     String   @unique
   name      String?
+  matricNo  String   @unique
   tasks     Task[]
 }
 
 model Task {
-  id        String   @id @default(cuid())
-  title     String
-  done      Boolean  @default(false)
-  userId    String
-  user      User     @relation(fields: [userId], references: [matricNo])
-  createdAt DateTime @default(now())
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  done        Boolean   @default(false)
+  dueDate     DateTime?
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
