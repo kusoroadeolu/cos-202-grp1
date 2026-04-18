@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@prisma/client": "^7.7.0",
@@ -34,4 +36,5 @@
     "ts-jest": "^29.4.9",
     "typescript": "^5"
   }
+  
 }
