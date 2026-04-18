@@ -63,6 +63,7 @@ git push origin your-name/feature-name
 3. Set the base branch to **`dev`** (not `main`)
 4. Write a short description of what you did
 5. Tag the team lead (Kusoro Victor) for review
+6. Also, ensure to check the Pull request template @ .github/pull_request_templates.md
 
 **Don't merge your own PR.** Wait for a review.
 
