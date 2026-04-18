@@ -168,7 +168,7 @@ Never commit your `.env` file. Use `.env.example` to share variable names.
 ---
 
 ## Useful Commands
-
+When running these commands ensure you are in the student-task-manager dir
 | Command | What it does |
 |---|---|
 | `npm run dev` | Start dev server |
@@ -176,6 +176,8 @@ Never commit your `.env` file. Use `.env.example` to share variable names.
 | `npx prisma studio` | Open database UI |
 | `npx prisma migrate dev` | Apply schema changes |
 | `npx prisma generate` | Regenerate Prisma client after schema edits |
+| `npm run test:watch` | Run tests in watch mode |
+
 
 ---
 
