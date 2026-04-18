@@ -27,7 +27,7 @@ Make sure you have these installed:
 ### 1. Clone the repo
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/kusoroadeolu/cos-202-grp1
 cd student-task-manager
 ```
 
@@ -168,7 +168,7 @@ Never commit your `.env` file. Use `.env.example` to share variable names.
 ---
 
 ## Useful Commands
-When running these commands ensure you are in the student-task-manager dir
+When running these commands ensure you are in the student-task-manager folder
 | Command | What it does |
 |---|---|
 | `npm run dev` | Start dev server |
