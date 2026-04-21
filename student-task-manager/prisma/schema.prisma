@@ -17,6 +17,7 @@ model User {
   email     String   @unique
   name      String?
   matricNo  String   @unique
+  password  String
   tasks     Task[]
 }
 
