@@ -129,6 +129,7 @@ export async function POST(req: Request) {
 - Use Tailwind CSS for styling — no separate CSS files needed
 - Fetch data from the API routes the backend team creates (e.g. `fetch('/api/tasks')`)
 - Keep components small and focused — one component, one responsibility
+- Also use Figma to sketch out frontend mocks quickly
 
 ###  QA/Documentation Team
 - Work inside `__tests__/`
@@ -177,7 +178,5 @@ When running these commands ensure you are in the student-task-manager folder
 | `npx prisma migrate dev` | Apply schema changes |
 | `npx prisma generate` | Regenerate Prisma client after schema edits |
 | `npm run test:watch` | Run tests in watch mode |
-
-
 ---
 
