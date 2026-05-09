@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import { prisma } from "@/lib/db";
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
@@ -10,7 +11,7 @@ export async function POST(req: Request) {
     // Check if user already exists in the db
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
-      return Response.json({ error: "User already exists" }, { status: 409 });
+      return NextResponse.json({ error: "User already exists" });
     }
 
     // Hashing the password and saving
@@ -27,11 +28,11 @@ export async function POST(req: Request) {
       maxAge: 60 * 60 * 24 * 7, 
     });
 
-    return Response.json(
+    return NextResponse.json(
       { id: user.id, email: user.email, name: user.name }
     );
   } catch (error) {
     console.error(error);
-    return Response.json({ error: "Server error" });
+    return NextResponse.json({ error: "Server error" });
   }
 }
