@@ -1,65 +1,84 @@
-import Image from "next/image";
+import React, { useState } from 'react';
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+interface Task {
+    id: number;
+    title: string;
+    completed: boolean;
+    dueDate: string;
 }
+
+function Home() {
+    const [tasks, setTasks] = useState<Task[]>([
+        { id: 1, title: 'Complete homework', completed: false, dueDate: '2023-10-01' },
+        { id: 2, title: 'Study for exam', completed: true, dueDate: '2023-10-02' },
+    ]);
+    const [newTask, setNewTask] = useState('');
+
+    const addTask = () => {
+        if (newTask.trim()) {
+            const task: Task = {
+                id: Date.now(),
+                title: newTask,
+                completed: false,
+                dueDate: new Date().toISOString().split('T')[0],
+            };
+            setTasks([...tasks, task]);
+            setNewTask('');
+        }
+    };
+
+    const toggleComplete = (id: number) => {
+        setTasks(tasks.map(task => task.id === id ? { ...task, completed: !task.completed } : task));
+    };
+
+    return (
+        <div style={{ display: 'flex' }}>
+            {/* Sidebar */}
+            <aside style={{ width: '200px', padding: '20px', borderRight: '1px solid #ccc' }}>
+                <h2>Menu</h2>
+                <ul style={{ listStyle: 'none', padding: 0 }}>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#today">Today's Tasks</a></li>
+                    <li><a href="#completed">Completed Tasks</a></li>
+                    <li><a href="#upcoming">Upcoming Tasks</a></li>
+                    <li><a href="#calendar">Calendar</a></li>
+                    <li><a href="#settings">Settings</a></li>
+                </ul>
+            </aside>
+
+            {/* Main Content */}
+            <main style={{ flex: 1, padding: '20px' }}>
+                <h1>Student Task Manager</h1>
+                
+                {/* Add New Task */}
+                <div style={{ marginBottom: '20px' }}>
+                    <input
+                        type="text"
+                        value={newTask}
+                        onChange={(e) => setNewTask(e.target.value)}
+                        placeholder="Add new task"
+                        style={{ padding: '10px', width: '300px' }}
+                    />
+                    <button onClick={addTask} style={{ padding: '10px', marginLeft: '10px' }}>Add Task</button>
+                </div>
+
+                {/* Task Cards */}
+                <div>
+                    {tasks.map(task => (
+                        <div key={task.id} style={{ border: '1px solid #ddd', padding: '10px', marginBottom: '10px', display: 'flex', justifyContent: 'space-between' }}>
+                            <div>
+                                <h3 style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>{task.title}</h3>
+                                <p>Due: {task.dueDate}</p>
+                            </div>
+                            <button onClick={() => toggleComplete(task.id)}>
+                                {task.completed ? 'Mark Incomplete' : 'Mark Complete'}
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            </main>
+        </div>
+    );
+}
+
+export default Home;
