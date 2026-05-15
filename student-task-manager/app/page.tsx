@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
+import SideBar from "@/components/SideBar";
 
 interface Task {
     id: number;
@@ -9,7 +10,7 @@ interface Task {
     dueDate: string;
 }
 
-function Home() {
+export default function Home() {
     const [tasks, setTasks] = useState<Task[]>([
         { id: 1, title: 'Complete homework', completed: false, dueDate: '2023-10-01' },
         { id: 2, title: 'Study for exam', completed: true, dueDate: '2023-10-02' },
@@ -34,19 +35,8 @@ function Home() {
     };
 
     return (
-        <div style={{ display: 'flex' }}>
-            {/* Sidebar */}
-            <aside style={{ width: '200px', padding: '20px', borderRight: '1px solid #ccc' }}>
-                <h2>Menu</h2>
-                <ul style={{ listStyle: 'none', padding: 0 }}>
-                    <li><a href="#dashboard">Dashboard</a></li>
-                    <li><a href="#today">Today's Tasks</a></li>
-                    <li><a href="#completed">Completed Tasks</a></li>
-                    <li><a href="#upcoming">Upcoming Tasks</a></li>
-                    <li><a href="#calendar">Calendar</a></li>
-                    <li><a href="#settings">Settings</a></li>
-                </ul>
-            </aside>
+        <div style={{ display: "flex" }}>
+            <SideBar />
 
             {/* Main Content */}
             <main style={{ flex: 1, padding: '20px' }}>
@@ -81,6 +71,4 @@ function Home() {
             </main>
         </div>
     );
-}
-
-export default Home;
+};
