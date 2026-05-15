@@ -4,7 +4,7 @@ export default function Sidebar() {
             style={{
                 width: '200px',
                 padding: '20px',
-                borderRight: '1px solid #ccc',
+                borderRight: '1px solid #E9631A',
                 height: '100vh'
             }}
         >

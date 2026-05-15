@@ -39,8 +39,8 @@ export default function Home() {
             <SideBar />
 
             {/* Main Content */}
-            <main style={{ flex: 1, padding: '20px' }}>
-                <h1>Student Task Manager</h1>
+            <main className="flex-1 pt-15 px-10">
+                <h1 className="text-3xl font-bold mb-10 text-[#315762]">Student Task Manager</h1>
                 
                 {/* Add New Task */}
                 <div style={{ marginBottom: '20px' }}>
