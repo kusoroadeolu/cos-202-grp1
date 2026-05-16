@@ -39,18 +39,18 @@ export default function Home() {
             <div className="flex flex-col min-h-screen">
 
             {/* Heading */}
-            <header className="w-full flex justify-end p-6">
-                <div className="flex gap-3">
+            <header className="w-full flex justify-end p-6" style={{position: "sticky", top: 0, zIndex: 1000, background: "white"}}>
+                <div className="flex gap-6" >
                     <Link
                     href="/login"
-                    className="px-4 py-2 border border-[#315762] text-[#315762] rounded"
+                    className="px-4 py-2 border border-[#2F80D1] text-[#2F80D1] rounded"
                     >
                     Login
                     </Link>
 
                     <Link
-                    href="/signup"
-                    className="px-4 py-2 bg-[#315762] text-white rounded"
+                    href="/sign-up"
+                    className="px-4 py-2 bg-[#2F80D1] text-white rounded"
                     >
                     Sign Up
                     </Link>
@@ -62,7 +62,7 @@ export default function Home() {
 
                 {/* Main Content */}
                 <main className="flex-1 pt-10 px-10">
-                    <h1 className="text-3xl font-bold mb-10 text-[#315762]">Student Task Manager</h1>
+                    <h1 className="text-3xl font-bold mb-10 text-[#2F80D1]">Student Task Manager</h1>
                 
                     {/* Add New Task */}
                     <div style={{ marginBottom: '20px' }}>
@@ -71,7 +71,7 @@ export default function Home() {
                             value={newTask}
                             onChange={(e) => setNewTask(e.target.value)}
                             placeholder="Add new task"
-                            style={{ padding: '10px', width: '300px' }}
+                            style={{ padding: '10px', width: '300px', color: "#A7ADB5" }}
                         />
                         <button onClick={addTask} style={{ padding: '10px', marginLeft: '10px' }}>Add Task</button>
                     </div>
@@ -79,12 +79,12 @@ export default function Home() {
                     {/* Task Cards */}
                     <div>
                         {tasks.map(task => (
-                            <div key={task.id} style={{ border: '1px solid #ddd', padding: '10px', marginBottom: '10px', display: 'flex', justifyContent: 'space-between' }}>
+                            <div key={task.id} style={{ border: 'none', backgroundColor: "#E8F0FA" , padding: '10px', marginBottom: '10px', display: 'flex', justifyContent: 'space-between' }}>
                                 <div>
-                                    <h3 style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>{task.title}</h3>
+                                    <h3 style={{ textDecoration: task.completed ? 'line-through' : 'none', color: "#2A3342" }}>{task.title}</h3>
                                     <p>Due: {task.dueDate}</p>
                                 </div>
-                                <button onClick={() => toggleComplete(task.id)}>
+                                <button onClick={() => toggleComplete(task.id)} style={{color: "#2F80D1"}}>
                                     {task.completed ? 'Mark Incomplete' : 'Mark Complete'}
                                 </button>
                             </div>
