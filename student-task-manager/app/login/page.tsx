@@ -15,7 +15,7 @@ function Login() {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <form onSubmit={handleSubmit} style={{ width: '300px', padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
-        <h2>Student Task Manager Login</h2>
+        <h2>Login</h2>
         <div style={{ marginBottom: '10px' }}>
           <label htmlFor="email">Email:</label>
           <input
@@ -42,7 +42,7 @@ function Login() {
           Login
         </button>
         <p style={{ textAlign: 'center', marginTop: '10px' }}>
-          Don't have an account? <a href="/signup">Sign up</a>
+          Don't have an account? <a href="/sign-up">Sign up</a>
         </p>
       </form>
     </div>

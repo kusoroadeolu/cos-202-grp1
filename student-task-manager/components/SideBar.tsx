@@ -1,0 +1,25 @@
+export default function Sidebar() {
+    return (
+        <aside
+            style={{
+            width: '200px',
+            padding: '20px',
+            borderRight: '1px solid #2A3342',
+            height: '100vh',
+            position: 'sticky',
+            top: 0
+            }}
+        >
+            <h2>Menu</h2>
+
+            <ul style={{ listStyle: 'none', padding: 0, color: "#2A3342"}}>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#today">Today's Tasks</a></li>
+                <li><a href="#completed">Completed Tasks</a></li>
+                <li><a href="#upcoming">Upcoming Tasks</a></li>
+                <li><a href="#calendar">Calendar</a></li>
+                <li><a href="#settings">Settings</a></li>
+            </ul>
+        </aside>
+    );
+}
