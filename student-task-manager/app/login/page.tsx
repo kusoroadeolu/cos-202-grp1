@@ -1,51 +1,75 @@
 "use client"
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AuthCard, AuthButton, AuthError, FormInput } from '@/components/auth-components';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here (e.g., API call)
-    console.log('Login attempt:', { email, password });
+    setError('');
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || 'Something went wrong');
+        return;
+      }
+
+      router.push('/dashboard');
+
+    } catch (err) {
+      setError('Something went wrong, please try again');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <form onSubmit={handleSubmit} style={{ width: '300px', padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
-        <h2>Login</h2>
-        <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{ width: '100%', padding: '8px', marginTop: '5px' }}
-          />
-        </div>
-        <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ width: '100%', padding: '8px', marginTop: '5px' }}
-          />
-        </div>
-        <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px' }}>
-          Login
-        </button>
-        <p style={{ textAlign: 'center', marginTop: '10px' }}>
-          Don't have an account? <a href="/sign-up">Sign up</a>
-        </p>
+    <AuthCard
+      title="Welcome back"
+      subtitle="Log in to your account to continue"
+      footerText="Don't have an account?"
+      footerLinkText="Sign up"
+      footerLinkHref="/sign-up"
+    >
+      <AuthError message={error} />
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <FormInput
+          label="Email"
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@example.com"
+          required
+        />
+        <FormInput
+          label="Password"
+          id="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="••••••••"
+          required
+        />
+        <AuthButton label="Log in" loadingLabel="Logging in..." loading={loading} />
       </form>
-    </div>
+    </AuthCard>
   );
 }
 

@@ -1,45 +1,87 @@
 "use client"
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AuthCard, AuthButton, AuthError, FormInput } from '@/components/auth-components';
 
 function Signup() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Handle signup logic here
-        console.log('Email:', email, 'Password:', password);
-    };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
-    return (
-        <div>
-            <h1>Signup</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Sign Up</button>
-            </form>
-        </div>
-    );
+    try {
+      const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || 'Something went wrong');
+        return;
+      }
+
+      router.push('/dashboard');
+
+    } catch (err) {
+      setError('Something went wrong, please try again');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <AuthCard
+      title="Create an account"
+      subtitle="Sign up to get started today"
+      footerText="Already have an account?"
+      footerLinkText="Log in"
+      footerLinkHref="/login"
+    >
+      <AuthError message={error} />
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <FormInput
+          label="Name"
+          id="name"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Jane Doe"
+          required
+        />
+        <FormInput
+          label="Email"
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@example.com"
+          required
+        />
+        <FormInput
+          label="Password"
+          id="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Min. 8 characters"
+          required
+          minLength={8}
+        />
+        <AuthButton label="Sign up" loadingLabel="Signing up..." loading={loading} />
+      </form>
+    </AuthCard>
+  );
 }
 
 export default Signup;
