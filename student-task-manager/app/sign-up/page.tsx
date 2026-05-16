@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { AuthCard, AuthButton, AuthError, FormInput } from '@/components/auth-components';
 
 function Signup() {
   const [name, setName] = useState('');
@@ -12,7 +12,7 @@ function Signup() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.SubmitEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
@@ -31,7 +31,7 @@ function Signup() {
         return;
       }
 
-      router.push('/dashboard'); // redirect after signup, same as login
+      router.push('/dashboard');
 
     } catch (err) {
       setError('Something went wrong, please try again');
@@ -41,50 +41,46 @@ function Signup() {
   };
 
   return (
-    <div>
-      <h1>Signup</h1>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={8}
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Signing up...' : 'Sign Up'}
-        </button>
+    <AuthCard
+      title="Create an account"
+      subtitle="Sign up to get started today"
+      footerText="Already have an account?"
+      footerLinkText="Log in"
+      footerLinkHref="/login"
+    >
+      <AuthError message={error} />
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <FormInput
+          label="Name"
+          id="name"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Jane Doe"
+          required
+        />
+        <FormInput
+          label="Email"
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@example.com"
+          required
+        />
+        <FormInput
+          label="Password"
+          id="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Min. 8 characters"
+          required
+          minLength={8}
+        />
+        <AuthButton label="Sign up" loadingLabel="Signing up..." loading={loading} />
       </form>
-
-      <p>Already have an account? <Link href="/login">Log in</Link></p>
-    </div>
+    </AuthCard>
   );
 }
 
