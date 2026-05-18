@@ -37,27 +37,7 @@ export default function Home() {
 
     return (
             <div className="flex flex-col min-h-screen">
-
-            {/* Heading */}
-            <header className="w-full flex justify-end p-6" style={{position: "sticky", top: 0, zIndex: 1000, background: "white"}}>
-                <div className="flex gap-6" >
-                    <Link
-                    href="/login"
-                    className="px-4 py-2 border border-[#2F80D1] text-[#2F80D1] rounded"
-                    >
-                    Login
-                    </Link>
-
-                    <Link
-                    href="/sign-up"
-                    className="px-4 py-2 bg-[#2F80D1] text-white rounded"
-                    >
-                    Sign Up
-                    </Link>
-                </div>
-            </header>
-
-            <div className="flex flex-1">
+              <div className="flex flex-1">
                 <SideBar />
 
                 {/* Main Content */}
@@ -91,7 +71,7 @@ export default function Home() {
                         ))}
                     </div>
                 </main>
-            </div>
+              </div>
         </div>
     );
 };
