@@ -1,8 +1,21 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { AuthCard, AuthButton, AuthError, FormInput } from '@/components/auth-components';
+
+// Validation helpers
+const validateEmail = (email: string): string | null => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email) return 'Email is required';
+  if (!emailRegex.test(email)) return 'Please enter a valid email';
+  return null;
+};
+
+const validatePassword = (password: string): string | null => {
+  if (!password) return 'Password is required';
+  return null;
+};
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -11,9 +24,20 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  // Real-time validation
+  const emailError = useMemo(() => validateEmail(email), [email]);
+  const passwordError = useMemo(() => validatePassword(password), [password]);
+  const isFormValid = !emailError && !passwordError && email && password;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (!isFormValid) {
+      setError('Please fix validation errors before submitting');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -34,7 +58,8 @@ function Login() {
       router.push('/dashboard');
 
     } catch (err) {
-      setError('Something went wrong, please try again');
+      console.error("Login failed:", err);
+      setError('Network error: Failed to connect to server');
     } finally {
       setLoading(false);
     }
@@ -58,6 +83,7 @@ function Login() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
           required
+          error={email && emailError ? emailError : undefined}
         />
         <FormInput
           label="Password"
@@ -67,8 +93,14 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="••••••••"
           required
+          error={password && passwordError ? passwordError : undefined}
         />
-        <AuthButton label="Log in" loadingLabel="Logging in..." loading={loading} />
+        <AuthButton 
+          label="Log in" 
+          loadingLabel="Logging in..." 
+          loading={loading}
+          disabled={!isFormValid || loading}
+        />
       </form>
     </AuthCard>
   );
