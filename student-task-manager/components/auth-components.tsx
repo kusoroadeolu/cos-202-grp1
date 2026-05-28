@@ -11,6 +11,8 @@ interface FormInputProps {
   placeholder?: string;
   required?: boolean;
   minLength?: number;
+  error?: string;
+  helperText?: string;
 }
 
 export function FormInput({
@@ -22,11 +24,17 @@ export function FormInput({
   placeholder,
   required,
   minLength,
+  error,
+  helperText,
 }: FormInputProps) {
+  const isInvalid = !!error;
+  const borderColor = isInvalid ? 'border-red-300' : 'border-gray-300';
+  const focusRing = isInvalid ? 'focus:ring-red-200' : 'focus:ring-[#2F80D1]';
+
   return (
     <div className="flex flex-col gap-1">
       <label htmlFor={id} className="text-sm font-medium text-gray-500">
-        {label}
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
       <input
         type={type}
@@ -36,8 +44,14 @@ export function FormInput({
         placeholder={placeholder}
         required={required}
         minLength={minLength}
-        className="w-full px-4 py-2.5 rounded border border-gray-300 bg-white text-gray-900 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2F80D1] focus:border-transparent transition"
+        className={`w-full px-4 py-2.5 rounded border ${borderColor} bg-white text-gray-900 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 ${focusRing} focus:border-transparent transition ${
+          isInvalid ? 'bg-red-50' : ''
+        }`}
       />
+      {error && <span className="text-xs text-red-600 mt-1">{error}</span>}
+      {helperText && !error && (
+        <span className="text-xs text-gray-500 mt-1">{helperText}</span>
+      )}
     </div>
   );
 }
@@ -47,13 +61,14 @@ interface AuthButtonProps {
   loading: boolean;
   label: string;
   loadingLabel: string;
+  disabled?: boolean;
 }
 
-export function AuthButton({ loading, label, loadingLabel }: AuthButtonProps) {
+export function AuthButton({ loading, label, loadingLabel, disabled }: AuthButtonProps) {
   return (
     <button
       type="submit"
-      disabled={loading}
+      disabled={loading || disabled}
       className="w-full py-2.5 px-4 bg-[#2F80D1] hover:bg-[#2272be] disabled:opacity-50 text-white text-sm font-medium rounded transition cursor-pointer disabled:cursor-not-allowed"
     >
       {loading ? loadingLabel : label}
