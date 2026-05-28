@@ -1,5 +1,5 @@
 # 🎓Student Task Manager
-
+https://cos-202-grp1.vercel.app/dashboard
 A fullstack,lightweight,intuitive task management app designed to help students organize assignments, track deadlines and boost daily productivity,built with Next.js, PostgreSQL, and Prisma.
 
 ---
