@@ -208,16 +208,6 @@ Make sure you're inside the `student-task-manager` folder before running these.
 
 ---
 
-## Contribution Workflow
-
-1. Pull the latest changes from `main` before starting
-2. Create a feature branch: `git checkout -b feature/your-feature-name`
-3. Commit your changes: `git commit -m 'Add: short description'`
-4. Push to your branch: `git push origin feature/your-feature-name`
-5. Open a Pull Request and request a review
-
----
-
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
