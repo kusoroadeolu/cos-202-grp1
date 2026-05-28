@@ -1,138 +1,158 @@
-# 🎓Student Task Manager
+# Student Task Manager
 
-A fullstack,lightweight,intuitive task management app designed to help students organize assignments, track deadlines and boost daily productivity,built with Next.js, PostgreSQL, and Prisma.
+> A fullstack, lightweight task management app designed to help students organize assignments, track deadlines, and stay on top of daily productivity.
+
+🔗 **Live Demo:** [cos-202-grp1.vercel.app](https://cos-202-grp1.vercel.app)
 
 ---
-## 🛠️ Tech Stack
+
+<!-- Screenshot: Landing / Hero -->
+![App Preview](./docs/images/hero.png)
+
+---
+
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | Frontend | Next.js (App Router) + Tailwind CSS |
 | Backend | Next.js API Routes |
 | Database | PostgreSQL via Prisma ORM |
-| Auth | NextAuth.js |
+| Auth | Custom cookie-based auth (bcrypt) |
 | Language | TypeScript |
 
 ---
 
-## 🚀Getting Started
-Get a local copy up and running by following these simple steps.
+## Features
+
+<!-- Screenshot: Dashboard view -->
+![Dashboard](./docs/images/dashboard.png)
+
+- Create, edit, and delete tasks with title, description, priority, and due date
+- Mark tasks as complete with animated status transitions
+- Filter today's tasks by due date
+- Search tasks by title and sort by priority, due date, or creation date
+- Secure signup and login with hashed passwords and session cookies
 
 ---
-### 📋 Prerequisites
+
+## 🚀 Getting Started
+
+### Prerequisites
 
 Make sure you have these installed:
 - [Node.js](https://nodejs.org) (LTS version)
 - [PostgreSQL](https://www.postgresql.org/download/) running locally
 
-## 💻Installation & Setup
-### 1. Clone the repo
+### Installation
 
+**1. Clone the repo**
 ```bash
 git clone https://github.com/kusoroadeolu/cos-202-grp1
 ```
 
-### 2. Navigate to the project directory
-    cd student-task-manager
-    
-### 3. Install dependencies
-    npm install
+**2. Navigate to the project directory**
+```bash
+cd student-task-manager
+```
 
-### 4. Set up environment variables
+**3. Install dependencies**
+```bash
+npm install
+```
+
+**4. Set up environment variables**
 
 Copy the example env file:
-
 ```bash
 cp .env.example .env
 ```
 
 Then fill in your values in `.env`:
-
 ```env
 DATABASE_URL="postgresql://postgres:yourpassword@localhost:5432/taskmanager?schema=public"
-NEXTAUTH_SECRET="your-random-secret"
-NEXTAUTH_URL="http://localhost:3000"
 ```
 
->💡 Tip: You can easily generate a secure secret key by running: `openssl rand -base64 32`
+> 💡 Tip: Generate a secure secret with `openssl rand -base64 32`
 
-### 5. Set up the database
-
+**5. Set up the database**
 ```bash
 npx prisma migrate dev --name init
 ```
 
-This creates the `taskmanager` database and applies the schema automatically.
-
-### 6. Run the dev server
-
+**6. Run the dev server**
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) — you're good to go.
+Open [http://localhost:3000](http://localhost:3000) and you're good to go.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 student-task-manager/
 ├── app/
-│   ├── page.tsx                        # Homepage
-│   ├── dashboard/page.tsx              # Main app view
-│   └── api/                            # BACKEND Team works here
-│       ├── tasks/route.ts              # Task CRUD endpoints
-│       ├── projects/route.ts           # Project endpoints
-│       └── auth/[...nextauth]/route.ts # Auth endpoints
+│   ├── page.tsx                      # Landing page
+│   ├── login/page.tsx                # Login page
+│   ├── sign-up/page.tsx              # Signup page
+│   ├── dashboard/
+│   │   ├── page.tsx                  # Main dashboard
+│   │   └── today/page.tsx            # Today's tasks view
+│   └── api/                          # Backend — API routes
+│       ├── login/route.ts
+│       ├── signup/route.ts
+│       └── tasks/
+│           ├── route.ts              # GET all tasks, POST new task
+│           └── [id]/route.ts         # GET, PATCH, DELETE by task ID
 │
-├── components/                         # 🎨FRONTEND Team works here
-│   ├── TaskCard.tsx
-│   └── Sidebar.tsx
+├── components/                       # Frontend — reusable UI components
+│   ├── SideBar.tsx
+│   ├── CreateTaskModal.tsx
+│   └── auth-components.tsx
 │
 ├── lib/
-│   └── db.ts                           # Shared Prisma client (don't touch)
+│   └── db.ts                         # Shared Prisma client (don't touch)
 │
-├── prisma/
-│   └── schema.prisma                   # DB schema (coordinate changes here)
-│
-└── __tests__/                          # QA/Documentation Team works here
+└── prisma/
+    └── schema.prisma                 # DB schema (coordinate changes here)
 ```
 
 ---
 
-## 🤝 Team Guidelines
+## Team Guidelines
 
 ### ⚙️ Backend Team (Akanbi Ibukunoluwa and Nneji Kamsiyochukwu)
 - Work inside `app/api/`
-- Each file is a route — `route.ts` exports `GET`, `POST`, `PUT`, `DELETE` functions
+- Each file is a route — `route.ts` exports `GET`, `POST`, `PATCH`, `DELETE` functions
 - Use the shared Prisma client from `lib/db.ts` — don't create your own instance
-- Example API route structure:
+- Auth is cookie-based: read `userId` from cookies and validate on every task route
 
+Example API route:
 ```ts
 // app/api/tasks/route.ts
 import { prisma } from '@/lib/db'
+import { cookies } from 'next/headers'
 
-export async function GET() {
-  const tasks = await prisma.task.findMany()
+export async function GET(req: Request) {
+  const cookieStore = await cookies()
+  const userId = cookieStore.get('userId')?.value
+  if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const tasks = await prisma.task.findMany({ where: { userId } })
   return Response.json(tasks)
-}
-
-export async function POST(req: Request) {
-  const body = await req.json()
-  const task = await prisma.task.create({ data: body })
-  return Response.json(task)
 }
 ```
 
-### 🎨 Frontend Team ( Awodeyi Bernice and Nweje Chukwudumebi)
+### 🎨 Frontend Team (Awodeyi Bernice and Nweje Chukwudumebi)
 - Work inside `components/` and `app/` pages
 - Use Tailwind CSS for styling — no separate CSS files needed
-- Fetch data from the API routes the backend team creates (e.g. `fetch('/api/tasks')`)
+- Fetch data from the API routes using `fetch('/api/tasks', { credentials: 'include' })`
 - Keep components small and focused — one component, one responsibility
-- Also use Figma to sketch out frontend mocks quickly
+- Use Figma to sketch out UI mocks before building
 
-###  QA/Documentation Team (Olamiju Oluwasemilore and Ezeukwu Jeffery)
+### 📋 QA / Documentation Team (Olamiju Oluwasemilore and Ezeukwu Jeffery)
 - Work inside `__tests__/`
 - We use **Jest** + **React Testing Library**
 - Run tests with: `npm test`
@@ -140,15 +160,14 @@ export async function POST(req: Request) {
 
 ---
 
-## 🗄️ Database Schema
+## Database Schema
 
 Defined in `prisma/schema.prisma`. Current models:
 
-- **User** — a student account
-- **Task** — a task belonging to a user
+- **User** — a student account (id, email, name, password)
+- **Task** — a task belonging to a user (title, description, priority, dueDate, done)
 
 To view the database visually:
-
 ```bash
 npx prisma studio
 ```
@@ -162,15 +181,15 @@ npx prisma studio
 | Variable | Description |
 |---|---|
 | `DATABASE_URL` | PostgreSQL connection string |
-| `NEXTAUTH_SECRET` | Secret key for session encryption |
-| `NEXTAUTH_URL` | Base URL of the app (use `http://localhost:3000` locally) |
 
-Never commit your `.env` file. Use `.env.example` to share variable names.
+Never commit your `.env` file. Use `.env.example` to share variable names only.
 
 ---
 
-## 🔧 Useful Commands
-When running these commands ensure you are in the student-task-manager folder
+## Useful Commands
+
+Make sure you're inside the `student-task-manager` folder before running these.
+
 | Command | What it does |
 |---|---|
 | `npm run dev` | Start dev server |
@@ -178,32 +197,27 @@ When running these commands ensure you are in the student-task-manager folder
 | `npx prisma studio` | Open database UI |
 | `npx prisma migrate dev` | Apply schema changes |
 | `npx prisma generate` | Regenerate Prisma client after schema edits |
-| `npm run test:watch` | Run tests in watch mode |
 
 ---
 
-## ⚠️ Known Issues
+## Known Issues
 
-The following issues are currently known and may be addressed in future updates:
-
-- Password reset and account recovery functionality are not yet implemented.
-- Mobile responsiveness is still being optimized for smaller screen sizes.
-- Email or push notification reminders for upcoming deadlines are not yet available.
+- Password reset and account recovery are not yet implemented
+- Mobile responsiveness is still being optimized for smaller screen sizes
+- Email or push notification reminders for upcoming deadlines are not yet available
 
 ---
 
-## 📈Contribution Workflow
+## Contribution Workflow
 
-Contributions make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Create a personal copy of the repository
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Pull the latest changes from `main` before starting
+2. Create a feature branch: `git checkout -b feature/your-feature-name`
+3. Commit your changes: `git commit -m 'Add: short description'`
+4. Push to your branch: `git push origin feature/your-feature-name`
+5. Open a Pull Request and request a review
 
 ---
 
-## 📄 License
+## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
