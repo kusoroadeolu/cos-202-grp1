@@ -194,7 +194,7 @@ The following issues are currently known and may be addressed in future updates:
 
 ## 📈Contribution Workflow
 
-Contributions make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions make the open-source community an amazing place to learn,inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Create a personal copy of the repository
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
