@@ -203,6 +203,14 @@ Contributions make the open-source community an amazing place to learn, inspire,
 5. Open a Pull Request
 
 ---
+## 👥 Contributors
+1. Frontend - Nweje chukwudumebi and Awodeyi Bernice
+2. Backend - NNeji kamsi and Akanbi ibukunoluwa
+3. Integration - Dan-chigwalu ogochukwu
+4. Documentation - Ezeukwu Jeffery and Olamiju Oluwasemilore
+5. Team Lead - Kusoro victor
+
+---
 
 ## 📄 License
 
