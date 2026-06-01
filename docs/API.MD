@@ -84,6 +84,19 @@ GET /api/tasks?sortBy=dueDate&order=asc
 
 ---
 
+### `GET /api/tasks/[id]`
+
+Fetches a single task by ID. The task must belong to the logged-in user.
+
+**URL Param**
+| Param | Description |
+|-------|-------------|
+| id | The task's `cuid` |
+
+**Response `200`** — returns the task object.
+
+---
+
 ### `PATCH /api/tasks/[id]`
 
 Updates one or more fields on an existing task. All fields are optional — only send what you want to change.
