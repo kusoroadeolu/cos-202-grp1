@@ -1,4 +1,4 @@
-# 🎓 Student Task Manager
+# 🎓 Serene Space
 
 A lightweight, fullstack task management app built for students — track assignments, prioritize work, and stay on top of deadlines.
 
